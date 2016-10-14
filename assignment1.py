@@ -1,9 +1,3 @@
-'''
-ToDO
-
-Player variable doesn't change
-'''
-
 print "\n--------------------------------------"
 print "---------Welcome to Connect 4---------"
 print "Type 'play' to play or 'exit' to leave\n"
