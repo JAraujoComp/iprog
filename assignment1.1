@@ -3,7 +3,7 @@ def init(settings, game):
  for x in range(settings["line"]):
   game.append([])
   for y in range(settings["col"]):
-  game[x].append("-")
+   game[x].append("-")
 
   #game[line number][collumn number]
 
@@ -29,46 +29,65 @@ def defSettings(settings, jump):
   settings["4or3"] = 3
   settings["diag"] = "y"
   
-def play(settings,player):
+def play(settings,player,game):
  '''Changes the board / Plays the game'''
  change = -1
- 
- while change <= 0 or change > settings["col"]:
+ while change < 0 or change >= settings["col"]:
      change = int(raw_input(str(player)+"'s turn: "))-1
 
- #checks each line for an empty spot called by player and changes it
+ #checks if player tried to place chip over board
+ if game[settings["line"]-1][change] != "-":
+  print "\nINVALID MOVE"
+  #need to know how to restart play()
+ else:
+  #checks each line for an empty spot called by player and changes it
+  for x in range(settings["line"]):
+   if game[x][change] == "-":
+    if player == settings["play1"]:
+     game[x][change] = settings["play1s"]
+    elif player == settings["play2"]:
+     game[x][change] = settings["play2s"]
+    break
+
+def prt(settings,game):
  for x in range(settings["line"]):
-  if game[x][change] == "-":
-   if player == settings["play1"]:
-    game[x][change] = settings["play1s"]
-   elif player == settings["play2"]:
-    game[x][change] = settings["play2s"]
-  #checks if player tried to place chip over board
-  else:
-      print "\nINVALID MOVE"
+  linetoprint = []
+  linetoprint.append(str((x-settings["line"])*-1))
+  for y in range(settings["col"]):
+   linetoprint.append(game[((x-settings["line"])*-1)-1][y])
+  print "".join(linetoprint)
+ colnum = [" "]
+ for x in range(settings["col"]):
+  colnum.append(str(x+1))
+ print "".join(colnum)
 
-def prt(settings):
- 
-
- 
+def chplayer(settings,player):
+ if player == settings["play1"]:
+  player = settings["play2"]
+ else:
+  player = settings["play1"]
 
 def main():
  #initializes variables
  settings = {}
  game = []
+ win = False
  
  defSettings(settings, False)
  init(settings,game)
  #defines the starting player
  player = settings["play1"]
- #processes a play
- play(settings,player)
- #prints the board
- prt(settings)
- #changes player
- chplayer(player)
+
+ while win == False:
+  #processes a play
+  play(settings,player,game)
+  #prints the board
+  prt(settings,game)
+  #changes player
+  chplayer(settings,player)
+  #checks for winner
+  #winner(settings,win)
 
 
 if __name__ == "__main__":
  main()
-
