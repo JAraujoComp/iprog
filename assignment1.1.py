@@ -25,22 +25,26 @@ def defSettings(settings, jump):
   settings["play1s"] = "x"
   settings["play2"] = "Player 2"
   settings["play2s"] = "o"
-  settings["diag"] = "n"
-  
+  settings["diag"] = "y"
+
 def play(settings,player,game):
  '''Changes the board / Plays the game'''
  change = -1
- while change < 0 or change >= settings["col"]:
-  temp = raw_input(str(player[0])+"'s turn: ")
-  if len(temp) <= len(str(settings["col"])):
-   change = ord(temp)-48-1
-  else:
-   change = -1
+ temp = raw_input(str(player[0])+"'s turn: ")
+ #is the input the permited column size?
+ if len(temp) <= len(str(settings["col"])):
+  change = ord(temp)-48-1
+ else:
+  #while input is not permited...
+  while change < 0 or change >= settings["col"]:
    print "\nINVALID MOVE! SILLY HOOMAN\n"
-   if player[0] == settings["play1"]:
-    player[0] = settings["play2"]
+   temp = raw_input(str(player[0])+"'s turn: ")
+   #is the input the permited column size?
+   if len(temp) <= len(str(settings["col"])):
+    change = ord(temp)-48-1
    else:
-    player[0] = settings["play1"]
+   #while loop remains out of bounds (input is not permited, silly hooman)
+    change = -1
 
  #checks if player tried to place chip over board
  if game[settings["line"]-1][change] != "-":
@@ -159,7 +163,7 @@ def main():
   win = [False]
 
   #In defSettings second input is predefined settings (True/False)
-  defSettings(settings, True)
+  defSettings(settings, False)
   init(settings,game)
   #initializes yet another variable
   player = [settings["play1"]]
