@@ -1,0 +1,89 @@
+class MyGame:
+    ''' The game Rock, Paper, Scissors '''
+    def __init__(self):
+        ''' Initializes the game '''
+        pass
+    
+    def menu(self):
+        choose = int(raw_input("Choose: "))
+        if choose >= 1 and choose <= 3:
+            self.gameRunning = True
+        elif choose == 4:
+            self.gameRunning = False
+            self.programRunning = False
+        else:
+            self.programRunning = True
+            self.gameRunning = False
+            print("Invalid Input\n")
+        
+    def inputProcessing(self):
+        ''' Processes input '''
+        inputValid = False
+        print("\nStop the game at any time by typing 'stop'\n")
+        while inputValid == False:
+            inp = raw_input("1: Rock, 2: Paper, 3: Scissors? ")
+            if inp.isdigit() == True and int(inp) >= 1 and int(inp) <= 3 or inp == "stop":
+                inputValid = True
+            else:
+                print("Invalid Input\n")
+        if inp == "stop":
+            self.gameRunning = False
+        else:
+            self.player = int(inp)
+        
+    def gameProcessing(self):
+        ''' Processes game '''
+        #prints player's choice
+        actions = {"1": "Rock","2": "Paper","3": "Scissors"}
+        print("Player: "+actions[str(self.player)])
+
+        #processes computer's choice
+        #import random
+        #self.computer = randint(1,3)
+        self.computer = 1
+        print("Computer: "+actions[str(self.computer)])
+        
+    def winning(self):
+        ''' Looks for a winner '''
+        #player with Rock
+        if self.player == 1 and self.computer == 1:
+            print("Tie! 30 points")
+        if self.player == 1 and self.computer == 2:
+            print("You lost! 0 points")
+        if self.player == 1 and self.computer == 3:
+            print("You won! 100 points")
+
+        #player with Paper
+        if self.player == 2 and self.computer == 1:
+            print("You won! 100 points")
+        if self.player == 2 and self.computer == 2:
+            print("Tie! 30 points")
+        if self.player == 2 and self.computer == 3:
+            print("You lost! 0 points")
+
+        #player with Scissors
+        if self.player == 3 and self.computer == 1:
+            print("You lost! 0 points")
+        if self.player == 3 and self.computer == 2:
+            print("You won! 100 points")
+        if self.player == 3 and self.computer == 3:
+            print("Tie! 30 points")
+
+
+
+def main():
+    game = MyGame()
+    game.programRunning = True
+    game.gameRunning = False
+    print("Rock, Paper, Scissors!\n\n1: Play\n2: List Players\n3: List Top Score\n4: Quit\n")
+    while game.programRunning == True:
+        game.menu()
+        while game.gameRunning == True:
+            game.inputProcessing()
+            if game.gameRunning == True:
+                game.gameProcessing()
+                game.winning()
+
+
+if __name__ == "__main__":
+    main()
