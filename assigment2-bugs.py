@@ -99,7 +99,7 @@ class MyDatabase:
     
     def filePlayers(self,players):
         ''' Reads csv players file '''
-        csv = open("players.csv","r")
+        csv = open("desktop/master/players.csv","r")
         numberPlayer = []
         namePlayer = []
         professionPlayer = []
@@ -146,29 +146,23 @@ class MyDatabase:
 
     def fileScore(self,scoreMove,descriptionMove,numberPlayer):
 
-        ''' Add results to the csv score file '''
-        fileScore = open("score.csv","a")
+        
+		''' Add results to the csv score file '''
+	    	fileScore = open("desktop/master/score.csv","a")
+	    	fileScore.write(numberPlayer , str(scoreMove) , descriptionMove + "\n")
+	    	fileScore.close()
 
-        #scoreMove, descriptionMove e numberPlayer contem a informacao da ultima jogada.
-        #altera o codigo abaixo (again, escrever em ficheiros, nao percebo bem da coisa)
-        #quando acabares, retira o '#' do fileScore do main(), para correr esta parte
-
-        for row in csv.readlines():
-            row = row.rstrip("\n")
-            row = row.split(",")
-            numberPlayer.append(row[0])
-            scoreMove.append(row[1])
-            descriptionMove.append(row[2:])
-
-
-        fileScore.write(numberPlayer , int(scoreMove), descriptionMove , "\n")
-        scoresFile.close()
-
-        fileScore.close()
-
-    def highScore(self):
+        
+        
+    def highScore(scoreMove,descriptionMove,numberPlayer):
         ''' Read HighScores '''
+        
+	    fileScore = open("desktop/master/score.csv","r")
+	
+	    	
+        	print fileScore
 
+       	 	fileScore.close()
 
 
 def main():
@@ -203,6 +197,7 @@ def main():
         elif choose == 3:
             #List Top Score
             game.gameRunning = False
+            data.highScore(scoreMove,descriptionMove,numberPlayer)
         elif choose == 4:
             #Quit
             game.gameRunning = False
@@ -219,7 +214,7 @@ def main():
             if game.gameRunning == True:
                 game.gameProcessing()
                 game.winning()
-                #data.fileScore(scoreMove,descriptionMove,numberPlayer)
+                data.fileScore(scoreMove,descriptionMove,numberPlayer)
                 
 
 
