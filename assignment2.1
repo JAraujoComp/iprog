@@ -144,7 +144,6 @@ class MyDatabase:
         ''' Add results to the csv score file '''
         
         fileScore = open("scores.csv","a")
-        print descriptionMove
         fileScore.write(str(numberPlayer[0])+","+str(scoreMove[0])+","+str(descriptionMove[0])+"\n")
         fileScore.close()
         
