@@ -1,0 +1,82 @@
+import csv
+class MyDatabase:
+    
+    def filePlayers(self):
+        ''' Reads csv players file '''
+        csv = open("players.csv","r")
+        self.numberPlayer = []
+        self.namePlayer = []
+        self.professionPlayer = []
+        
+        for row in csv.readlines():
+            row = row.rstrip("\n")
+            row = row.split(",")
+            self.numberPlayer.append(row[0])
+            self.namePlayer.append(row[1])
+            self.professionPlayer.append(row[2])
+
+        for x in range(len(self.numberPlayer)):
+            self.players[self.numberPlayer[x]] = self.namePlayer[x],self.professionPlayer[x]
+
+        csv.close()
+
+    def verifyPlayer(self):
+        ''' Receives and compares name or id player '''
+        
+        valid = False
+        #asks for name or id
+        while valid == False:
+            nameOrId = raw_input("Enter your name or id: ")
+            if nameOrId.isdigit() == True:
+                if int(nameOrId) <= len(self.players) and int(nameOrId) > 0:
+                    self.player = self.players[nameOrId[0]][0]
+                    self.numberPlayer = int(nameOrId)
+                    valid = True
+            else:
+                for x in range(len(self.players)):
+                    if nameOrId == self.players[str(x+1)][0]:
+                        self.player = nameOrId
+                        self.numberPlayer = x+1
+                        valid = True
+
+    def playersList(self):
+        ''' Print List of players '''
+
+        for x in range(len(self.players)):
+            print("Id. "+str(x+1)+": "+self.players[str(x+1)][0]+", "+self.players[str(x+1)][1])
+
+    def fileScore(self):
+        ''' Add results to the csv score file '''
+        
+        fileScore = open("scores.csv","a")
+        fileScore.write(str(self.numberPlayer)+","+str(self.scoreMove)+","+str(self.descriptionMove)+"\n")
+        fileScore.close()
+        
+    def highScore(self):
+        ''' Read HighScores '''
+
+        #there must be scores, else max() returns empty
+        fileScore = open("scores.csv","r")
+        numberPlayer = []
+        scoreMove = []
+        scorePlayer = []
+        for row in fileScore.readlines():
+            row = row.rstrip("\n")
+            row = row.split(",")
+            numberPlayer.append(int(row[0]))
+            scoreMove.append(int(row[1]))
+
+        for y in range(max(numberPlayer)):
+            scorePlayer.append(0)
+            for x in range(len(numberPlayer)):
+                if numberPlayer[x] == y+1:
+                    scorePlayer[y] += scoreMove[x]
+        fileScore.close()
+
+        print("\nHigh Scores:")
+        for x in range(3):
+            for y in range(len(scorePlayer)):
+                if scorePlayer[y] == max(scorePlayer):
+                    print(str(x+1)+": "+str(self.players[str(y+1)][0])+" - "+str(max(scorePlayer)))
+                    scorePlayer[y] = 0
+                    break
